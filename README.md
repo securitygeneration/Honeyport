@@ -13,7 +13,7 @@ _\ \|  __/| (__ | |_| || |   | || |_ | |_| |
 \____/ \___||_| |_| \___||_|   \__,_| \__||_| \___/ |_| |_|
 ```
 
-http://www.securitygeneration.com - @securitygen
+http://www.securitygeneration.com - [@securitygen](https://twitter.com/securitygen)
 
 Honeyport scripts
 ===
