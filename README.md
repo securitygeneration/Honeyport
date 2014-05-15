@@ -18,8 +18,8 @@ http://www.securitygeneration.com - @securitygen
 Honeyport scripts
 ===
 
-From: http://www.securitygeneration.com/security/linux-bash-ncat-honeyport-script-with-iptables-and-dome9-support/
-
+From: 
+http://www.securitygeneration.com/security/linux-bash-ncat-honeyport-script-with-iptables-and-dome9-support/
 http://www.securitygeneration.com/security/honeyport-python-script-with-local-firewall-and-dome9-support/
 
 A honeyport is essentially a simpler version of a honeypot. Whereas honeypots aim to simulate an application or protocol for the attacker to play around with, all the honeyport looks for is a connection from an external party, after which a specific action is performed (usually blacklisting them). Although hosts on the internet are regularly port scanned and connected to by automated attacks, it is usually only targeted attackers who will connect to more unusual ports in order to determine what services are running on them. More often than not, it is these targeted attackers you’ll want to repel.
