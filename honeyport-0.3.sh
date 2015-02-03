@@ -8,6 +8,7 @@
 # 0.1: Initial release with whitelisting (2013-08-21)
 # 0.2: Added Dome9 IP Blacklist TTL option (2013-11-27)
 # 0.3: Added logfile location config (2014-04-09)
+# 0.4: Added checks for ncat (2015-02-03)
 #
 # TODO: Whitelist file, Blacklist timeout for IPtables
 # ----CONFIG START----------------------------------------------
@@ -28,8 +29,12 @@ WHITELIST=( "1.1.1.1" );
 LOGFILE="honeyport.log"
 # ---CONFIG END-------------------------------------------------
 
+# Check for ncat
+NCAT=`which ncat`;
+if [ "${NCAT}" == "" ]; then
+        echo "[-] Can't find ncat (required).";
 # Ensure a valid METHOD is set
-if [ "${METHOD}" != "IPTABLES" ] && [ "${METHOD}" != "DOME9" ]; then
+elif [ "${METHOD}" != "IPTABLES" ] && [ "${METHOD}" != "DOME9" ]; then
         echo "[-] Invalid METHOD. Enter IPTABLES or DOME9.";
 # Ensure we are root if IPtables is chosen
 elif [ "${METHOD}" == "IPTABLES" ] && [[ $EUID -ne 0 ]]; then
@@ -47,7 +52,7 @@ else
                         do
                                 # Run Ncat listener on $PORT. Run response.sh when a client connects. Grep client's IP.
 								# Note: to listen on a specific interface, insert its IP after the -l flag.
-                                IP=`/usr/local/bin/ncat -v -l -p ${PORT} -e ./response.sh 2>&1 1> /dev/null | grep from | egrep '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:' | awk {'print $4'} | cut -d: -f1`;
+                                IP=`${NCAT} -v -l -p ${PORT} -e ./response.sh 2>&1 1> /dev/null | grep from | egrep '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:' | awk {'print $4'} | cut -d: -f1`;
 
                                 # Check IP isn't whitelisted
                                 WHITELISTED=false;
