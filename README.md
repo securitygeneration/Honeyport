@@ -32,6 +32,8 @@ The Python script has the same functionality as the Bash script but supports IPF
 Bash ChangeLog -
 - 0.1: Initial release with whitelisting (2013-08-21)
 - 0.2: Added Dome9 IP Blacklist TTL option (2013-11-27)
+- 0.3: Added logfile location config (2014-04-09)
+- 0.4: Added checks for ncat (2015-02-03)
  
 Python ChangeLog -
 - 0.1: Initial release (2014-05-15)
