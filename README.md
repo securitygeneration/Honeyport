@@ -34,6 +34,7 @@ Bash ChangeLog -
 - 0.2: Added Dome9 IP Blacklist TTL option (2013-11-27)
 - 0.3: Added logfile location config (2014-04-09)
 - 0.4: Added checks for ncat (2015-02-03)
- 
+- 0.5: Cleaned up deprecated syntax (2017-01-27)
+  
 Python ChangeLog -
 - 0.1: Initial release (2014-05-15)

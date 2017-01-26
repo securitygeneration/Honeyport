@@ -9,6 +9,7 @@
 # 0.2: Added Dome9 IP Blacklist TTL option (2013-11-27)
 # 0.3: Added logfile location config (2014-04-09)
 # 0.4: Added checks for ncat (2015-02-03)
+# 0.5: Cleaned up deprecated syntax (2017-01-27)
 #
 # TODO: Whitelist file, Blacklist timeout for IPtables
 # ----CONFIG START----------------------------------------------
@@ -30,7 +31,7 @@ LOGFILE="honeyport.log"
 # ---CONFIG END-------------------------------------------------
 
 # Check for ncat
-NCAT=`which ncat`;
+NCAT=$(which ncat);
 if [ "${NCAT}" == "" ]; then
         echo "[-] Can't find ncat (required).";
 # Ensure a valid METHOD is set
@@ -41,25 +42,25 @@ elif [ "${METHOD}" == "IPTABLES" ] && [[ $EUID -ne 0 ]]; then
         echo "[-] Using method IPtables requires root."
 else
         # Check PORT is not in use
-        RUNNING=`/usr/sbin/lsof -i :${PORT}`;
+        RUNNING=$(/usr/sbin/lsof -i :${PORT});
         if [ -n "$RUNNING" ]; then
                 echo "Port $PORT is already in use. Aborting.";
                 #echo $RUNNING; # Optional for debugging
                 exit;
         else
-                echo "[*] Starting Honeyport listener on port $PORT. Waiting for the bees... - `date`" | tee -a $LOGFILE;
+                echo "[*] Starting Honeyport listener on port $PORT. Waiting for the bees... - $(date)" | tee -a $LOGFILE;
                 while [ -z "$RUNNING" ]
                         do
                                 # Run Ncat listener on $PORT. Run response.sh when a client connects. Grep client's IP.
 								# Note: to listen on a specific interface, insert its IP after the -l flag.
-                                IP=`${NCAT} -v -l -p ${PORT} -e ./response.sh 2>&1 1> /dev/null | grep from | egrep '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:' | awk {'print $4'} | cut -d: -f1`;
+                                IP=$(${NCAT} -v -l -p ${PORT} -e ./response.sh 2>&1 1> /dev/null | grep from | egrep '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:' | awk {'print $4'} | cut -d: -f1);
 
                                 # Check IP isn't whitelisted
                                 WHITELISTED=false;
                                 for i in "${WHITELIST[@]}"
                                 do
-                                        if [ "${IP}" == $i ]; then
-                                                echo "[!] Hit from whitelisted IP: ${i} - `date`" | tee -a $LOGFILE;
+                                        if [ "${IP}" == "${i}" ]; then
+                                                echo "[!] Hit from whitelisted IP: ${i} - $(date)" | tee -a $LOGFILE;
                                                 WHITELISTED=true;
                                         fi
                                 done
@@ -67,8 +68,8 @@ else
                                 # If IP is not blank or localhost or whitelisted, blacklist the IP using iptables or Dome9 and log.
                                 if [ "${IP}" != "" ] && [ "${IP}" != "127.0.0.1" ] && [ "${WHITELISTED}" != true ]; then
                                         if [ "${METHOD}" == "IPTABLES" ]; then
-                                                /sbin/iptables -A INPUT -p all -s ${IP} -j DROP;
-                                                echo "[+] Blacklisting: ${IP} with IPtables - `date`" | tee -a $LOGFILE;
+                                                /sbin/iptables -A INPUT -p all -s "${IP}" -j DROP;
+                                                echo "[+] Blacklisting: ${IP} with IPtables - $(date)" | tee -a $LOGFILE;
                                         elif [ "${METHOD}" == "DOME9" ]; then
                                                 # Add TTL value if needed
                                                 if [ -n "$DOME9TTL" ]; then
@@ -77,11 +78,11 @@ else
                                                         TTL="";
                                                 fi;
                                                 # Make Dome9 API request
-                                                /usr/bin/curl -k -v -H "Accept: application/json" -u ${DOMEUSER}:${DOMEAPI} -X "POST" -d "IP=$IP&Comment=Honeyport $PORT - `date`$TTL" https://api.dome9.com/v1/blacklist/Items/ > /dev/null 2>&1;
-                                                echo "[+] Blacklisting: ${IP} with Dome9 (TTL: ${DOME9TTL}) - `date`" | tee -a $LOGFILE;
+                                                /usr/bin/curl -k -v -H "Accept: application/json" -u ${DOMEUSER}:${DOMEAPI} -X "POST" -d "IP=$IP&Comment=Honeyport $PORT - $(date)$TTL" https://api.dome9.com/v1/blacklist/Items/ > /dev/null 2>&1;
+                                                echo "[+] Blacklisting: ${IP} with Dome9 (TTL: ${DOME9TTL}) - $(date)" | tee -a $LOGFILE;
                                         fi;
                                 fi;
-                                RUNNING=`/usr/sbin/lsof -i :${PORT}`;
+                                RUNNING=$(/usr/sbin/lsof -i :${PORT});
                         done;
         fi;
 fi;
