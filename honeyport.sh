@@ -1,5 +1,5 @@
 #!/bin/bash
-# honeyport-0.3.sh
+# honeyport-0.5.sh
 # Linux Bash Ncat Honeyport with IPTables and Dome9 support
 # By Sebastien Jeanquier (@securitygen)
 # Security Generation - http://www.securitygeneration.com
