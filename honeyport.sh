@@ -1,8 +1,10 @@
 #!/bin/bash
-# honeyport-0.5.sh
+# honeyport.sh
 # Linux Bash Ncat Honeyport with IPTables and Dome9 support
 # By Sebastien Jeanquier (@securitygen)
 # Security Generation - http://www.securitygeneration.com
+#
+# Requirements: Ncat from Nmap package
 #
 # ChangeLog -
 # 0.1: Initial release with whitelisting (2013-08-21)
