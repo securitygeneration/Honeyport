@@ -1,5 +1,5 @@
 #!/usr/bin/python  
-# honeyport-0.1.py
+# honeyport.py
 # Python (v2.6-3.4) Honeyport with OSX/Linux/Windows and Dome9 support
 # By Sebastien Jeanquier (@securitygen)
 # Security Generation - http://www.securitygeneration.com
