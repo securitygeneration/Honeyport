@@ -38,3 +38,7 @@ Bash ChangeLog -
   
 Python ChangeLog -
 - 0.1: Initial release (2014-05-15)
+
+The honeystats.sh script will parse the honeyport.log file and output some statistics about connections that have been logged, including a visual chart of connections. Any visible spikes could be an indication of a directed attack, as opposed to background internet scanning.
+
+![Honeystats](https://www.securitygeneration.com/temp/honeyport.png)
